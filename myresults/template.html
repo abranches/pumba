@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bootstrap 101 Template</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Bootstrap -->
+  <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="template.css" rel="stylesheet">
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+      <![endif]-->
+      <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+      <script src="jquery.min.js"></script>
+      <!-- Include all compiled plugins (below), or include individual files as needed -->
+      <script src="bootstrap/js/bootstrap.min.js"></script>
+      <script src="highcharts.js"></script>
+      <script src="exporting.js"></script>
+    </head>
+    <body>
+
+      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#">Pumba</a>
+          </div>
+          <div class="collapse navbar-collapse">
+            <ul class="nav navbar-nav">
+              <li class="active"><a href="#">SphinxSocketsTest</a></li>
+              <li><a href="#about">SphinxGeventTest</a></li>
+              <li><a href="#contact">SphinxTwistedTest</a></li>
+            </ul>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+
+      <div class="container">
+
+        <div class="starter-template">
+          <!--<h1>Bootstrap starter template</h1>-->
+          <h1>Hakuna Matata</h1>
+          <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
+          <div id="chart_container" style="width:100%; height:90%;"></div>
+          <script src="results.js"></script>
+          <script>
+            var colors = {blue: "#2f7ed8",
+            black: "#0d233a",
+            green: "#8bbc21",
+            red: "#910000",
+            cyan: "#1aadce",
+            purple: "#492970",
+            orange: "#f28f43",
+          };
+          var options = {
+            chart: {
+              renderTo: 'chart_container',
+              type: 'line'
+            },
+            title: {
+              text: 'Pumba'
+            },
+            xAxis: {
+              categories: [],
+            },
+            yAxis: [{
+              title: {
+                text: "Runs per second",
+              },
+              min: 0,
+            },
+            {
+              title: {
+                text: 'Response time (ms)'
+              },
+              opposite: true,
+              min: 0,
+            }],
+            series: []
+          };
+          var std_dev = true;
+
+          for (benchmark in data) {
+            options.title.text = benchmark;
+            options.series.push({"name": "Runs",
+              "yAxis": 0,
+              "type": "area",
+              "data": data[benchmark]["runs"],
+              "color": colors.blue,
+              "marker": {"enabled": false}});
+            options.series.push({"name": "Failed runs",
+              "yAxis": 0,
+              "type": "area",
+              "color": colors.green,
+              "data": data[benchmark]["failed"],
+              "marker": {"enabled": false}});
+            if (std_dev) {
+              options.series.push({"name": "Standard deviation",
+                "yAxis": 1,
+                "type": "scatter",
+                "color": colors.red,
+                "marker": {"symbol": "triangle", "radius": 2.5},
+                "data": data[benchmark]["std_dev"],});
+            }
+            options.series.push({"name": "Avg response time",
+              "yAxis": 1,
+              "type": "line",
+              "color": colors.black,
+              "marker": {"symbol": "diamond", "radius": 3},
+              "data": data[benchmark]["avg_run_time"],});             
+            options.series.push({"name": "Max response time",
+              "yAxis": 1,
+              "type": "scatter",
+              "visible": false,
+              "color": colors.orange,
+              "marker": {"symbol": "diamond", "radius": 3},
+              "data": data[benchmark]["max_run_time"],});              
+          }
+        // Create the chart
+        var chart = new Highcharts.Chart(options);
+      </script>
+    </div>
+
+  </div>
+
+
+  
+</body>
+</html>
